@@ -11,10 +11,21 @@ exports.createTask = async (req, res) => {
 }
 
 exports.getTasks = async (req, res) => {
-    const tasks = await Task.find()
+    const { 
+        page = 1,
+        pageSize = 5
+     } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(pageSize);
+    const total = await Task.countDocuments()
     const completed = await Task.countDocuments({isCompleted: true})
+    const tasks = await Task.find()
+    .skip(skip)
+    .limit(pageSize)
+
     res.json({
-        total: tasks.length,
+        total: total,
+        page: Number(page),
+        pageSize: parseInt(pageSize),
         completed: completed,
         tasks
     })

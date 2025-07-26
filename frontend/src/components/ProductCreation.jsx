@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const ProductCreation = () => {
+const ProductCreation = ({onTaskAdded}) => {
     const [task, setTask] = useState({
         title: '',
         description: ''
@@ -33,6 +33,7 @@ const ProductCreation = () => {
                 title: '',
                 description: ''
             })
+            onTaskAdded()
         } catch (error) {
             console.error('Error creating task', error)
         }
@@ -40,7 +41,7 @@ const ProductCreation = () => {
 
     return (
         <div className="flex justify-center mt-8">
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-md">
+            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-6xl">
                 <h2 className="text-xl font-bold mb-4 text-center">Add New Task</h2>
                 <div className="mb-4">
                     <input
