@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
 
-const ProductCreation = ({onTaskAdded}) => {
+const ProductCreation = ({ onTaskAdded }) => {
     const [task, setTask] = useState({
         title: '',
         description: ''
     })
+    const [error, setError] = useState('')
     const handleChange = (e) => {
         const { name, value } = e.target;
         setTask((prev) => ({
             ...prev,
             [name]: value
         }));
-        // console.log will show previous state unless moved to useEffect
+        setError('')
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // if (!task.title.trim() || !task.description.trim()) return;
+
         try {
             const response = await fetch('http://localhost:3000/tasks', {
                 method: 'POST',
@@ -28,11 +29,21 @@ const ProductCreation = ({onTaskAdded}) => {
                 })
             });
 
-            if (!response.ok) throw new Error('Error creating task')
+            if (!response.ok) {
+                const errorData = await response.json();
+                setError(errorData?.error || 'Failed to create task');
+                return;
+            }
+            if(response.ok){
+                alert('Task Is Added')
+            }
+
             setTask({
                 title: '',
                 description: ''
             })
+
+            setError('')
             onTaskAdded()
         } catch (error) {
             console.error('Error creating task', error)
@@ -72,6 +83,11 @@ const ProductCreation = ({onTaskAdded}) => {
                         Add Task
                     </button>
                 </div>
+                {error && (
+                    <div className="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-center">
+                        {error}
+                    </div>
+                )}
             </form>
         </div>
     )

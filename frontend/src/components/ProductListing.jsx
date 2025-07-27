@@ -141,6 +141,7 @@ const ProductListing = ({ tasks, onTaskChange, page, setPage, pageSize }) => {
             );
           })}
         </div>
+        {/* Pagination */}
         <div className="flex justify-center mt-6 gap-4">
           <button
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
