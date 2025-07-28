@@ -61,7 +61,7 @@ const ProductListing = ({ tasks, onTaskChange, page, setPage, pageSize }) => {
 
 
   useEffect(() => {
-    console.log('Received tasks in ProductListing:', tasks);
+    console.log('Received tasks in ProductListing: ', tasks);
   }, [tasks]);
   return (
     <div className="p-6 min-h-screen">
